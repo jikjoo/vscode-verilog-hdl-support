@@ -6,6 +6,9 @@ import { workspace, window, DocumentSelector, ExtensionContext, extensions, Uri,
 // Linters
 import LintManager from "./linter/LintManager";
 
+// ctags
+import { CtagsManager } from "./ctags";
+
 // Providers
 import VerilogDocumentSymbolProvider from "./providers/DocumentSymbolProvider";
 import VerilogHoverProvider from "./providers/HoverProvider";
@@ -18,6 +21,7 @@ import VerilogWorkspaceSymbolProvider from "./providers/WorkspaceSymbolProvider"
 import VerilogModuleInstantiation from "./commands/ModuleInstantiation"
 
 let lintManager: LintManager;
+export let ctagsManager: CtagsManager = new CtagsManager;
 var extensionID: string = "mshr-h.veriloghdl";
 
 export function activate(context: ExtensionContext) {
@@ -29,6 +33,9 @@ export function activate(context: ExtensionContext) {
     // Check if the Extension was updated recently
     checkIfUpdated(context);
 
+    // Configure ctags
+    ctagsManager.configure();
+    
     // Configure lint manager
     lintManager = new LintManager();
 

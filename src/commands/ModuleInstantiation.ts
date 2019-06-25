@@ -63,17 +63,6 @@ export default class VerilogModuleInstantiation {
 }
 
 
-/* 
-function instantiateModuleInteract() {
-    let filePath = path.dirname(window.activeTextEditor.document.fileName);
-    selectFile(filePath).then(srcpath => {
-        this.instantiateModule(srcpath)
-            .then(inst => {
-                window.activeTextEditor.insertSnippet(inst);
-            });
-    });
-} */
-
 function instantiatePort(ports: string[]): string {
     let port = '';
     let max_len = 0;

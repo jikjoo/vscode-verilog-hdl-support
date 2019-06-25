@@ -20,15 +20,6 @@ export default class VerilogWorkspaceSymbolProvider implements WorkspaceSymbolPr
     public parallelProcessing: number = 50;
     public exclude: GlobPattern = undefined;
 
-    private regex = new RegExp([
-        , /(?<=^\s*(?:virtual\s+)?)/
-        , /(module|class|interface|package|program)\s+/
-        , /(?:automatic\s+)?/
-        , /(\w+)/
-        , /[\w\W.]*?/
-        , /(end\1)/
-    ].map(x => x.source).join(''), 'mg');
-
     constructor(docProvider: VerilogDocumentSymbolProvider,
         disabled?: Boolean, exclude?: GlobPattern, parallelProcessing?: number) {
         this.docProvider = docProvider;
@@ -127,7 +118,7 @@ export default class VerilogWorkspaceSymbolProvider implements WorkspaceSymbolPr
                 await Promise.all(subset.map(uri => {
                     return new Promise(async (resolve) => {
                         resolve(workspace.openTextDocument(uri).then(doc => {
-                            return this.docProvider.provideDocumentSymbols(doc, token, this.regex)
+                            return this.docProvider.provideDocumentSymbols(doc, token);
                         }))
                     }).catch(() => {
                         console.log("SystemVerilog: Indexing: Unable to process file: ", uri.toString());
